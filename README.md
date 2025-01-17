@@ -2,7 +2,12 @@
 
 Более детальные комментарии даны в видео, текстовая инструкция лишь шпаргалка, чтобы иметь перед собой алгоритм действий. Поэтому крайне рекоммендую сначала ознакомиться с видео.
 
-[![Установка Foundry VTT на виртуальный сервер Ubuntu 22.04 +nginx+SSL](https://i.ytimg.com/vi/rMPRLyrs1t0/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC7P2a6R9PDS7jOEWG91WIRWfVxoQ)](#video_url)
+[![Установка Foundry VTT на виртуальный сервер Ubuntu 22.04 +nginx+SSL](https://i9.ytimg.com/vi/TJGdipRdwvE/mqdefault.jpg?v=678ace18&sqp=CIihq7wG&rs=AOn4CLBUIDzotUyXNRaadNEUqUrGBhicZg)](#video_url)
+
+> [!IMPORTANT]
+> Инструкцию буду поддерживать в актуальном состоянии. Если вы нашли ошибку или что-то идет не так, пишите мне, актуализирую статью:
+>
+> [@marestore_support](https://t.me/marestore_support)
 
 ## Требуемые технические характеристики к серверу
 
@@ -31,82 +36,130 @@ _Объем памяти, требуемый серверным процессо
 
 ## Обновление системы
 
-`sudo apt-get update`
+```bash
+sudo apt-get update
+```
 
-`sudo apt-get upgrade`
+```bash
+sudo apt-get upgrade
+```
 
-`reboot`
+```bash
+reboot
+```
 
 ## Установка Node.js
 
-`curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh`
+```bash
+curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh
+```
 
-`sudo -E bash nodesource_setup.sh`
+```bash
+sudo -E bash nodesource_setup.sh
+```
 
-`sudo apt-get install -y nodejs`
+```bash
+sudo apt-get install -y nodejs
+```
 
 Проверяем установленные версии
 
-`node --version`
+```bash
+node --version
+```
 
-`npm --version`
+```bash
+npm --version
+```
 
 ## Установка zip и unzip
 
-`sudo apt-get install zip unzip`
+```bash
+sudo apt-get install zip unzip
+```
 
 ## Создание пользователя
 
-`adduser foundry`
+```bash
+adduser foundry
+```
 
-`usermod -aG sudo foundry`
+```bash
+usermod -aG sudo foundry
+```
 
 ## Войти под новым пользователем
 
-`su - foundry`
+```bash
+su - foundry
+```
 
 ## Установка PM2
 
-`sudo npm install pm2 -g`
+```bash
+sudo npm install pm2 -g
+```
 
 # Установка Foundry
 
 ## Создание папок
 
-`mkdir foundryvtt`
+```bash
+mkdir foundryvtt
+```
 
-`mkdir foundrydata`
+```bash
+mkdir foundrydata
+```
 
 ## Скачивание архива
 
 Для начала надо войти в папку **foundryvtt**
 
-`cd foundryvtt`
+```bash
+cd foundryvtt
+```
 > [!IMPORTANT]
 > Войдите в вашу учетную запись на **https://foundryvtt.com/**, перейти в раздел **Purchased Licenses**, в **Operating System** выбрать **Linux/NodeJS**, затем нажать на кнопку **Timed URL**. В буфер обмена скопируется ссылка.
 
-`wget -O 'foundry.zip' 'ССЫЛКА_КОТОРУЮ_МЫ_ПОЛУЧИЛИ_ВЫШЕ'`
+```bash
+wget -O 'foundry.zip' 'ССЫЛКА_КОТОРУЮ_МЫ_ПОЛУЧИЛИ_ВЫШЕ'
+```
 
 ## Распаковка
 
-`unzip foundry.zip`
+```bash
+unzip foundry.zip
+```
 
 # Добавление Foundry в PM2
 
+## Установка PM2
+
+```bash
+sudo npm install pm2 -g
+```
+
 ## Настрйока PM2
 
-`pm2 startup`
+```bash
+pm2 startup
+```
 
 #### Скопировать и выполнить строку, которая выдаст команда выше, должно получится что-то вроде этого:
 
-`sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu`
+```bash
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu
+```
 
 > [!WARNING]
 > _Не копируйте эту строку, вашу строку вам выдаст комманда выше, это лишь пример_
 
 ## Добавить команду запуска Foundry в PM2
 
-`pm2 start "node $HOME/foundryvtt/resources/app/main.js --dataPath=$HOME/foundrydata" --name foundry`
+```bash
+pm2 start "node $HOME/foundryvtt/resources/app/main.js --dataPath=$HOME/foundrydata" --name foundry
+```
 
 **СЕРВЕР РАБОТАЕТ, ДАЛЬНЕЙШИЕ НАСТРОЙКИ ОПЦИОНАЛЬНЫ, ЕСЛИ ИМЕЕТСЯ СВОЙ ДОМЕН**
 
@@ -114,29 +167,44 @@ _Объем памяти, требуемый серверным процессо
 
 ## Установка NGINX
 
-`sudo apt-get install nginx`
+```bash
+sudo apt-get install nginx
+```
 
 ## Настройка Firewall
 
-`sudo ufw allow 'Nginx Full'`
+```bash
+sudo ufw allow 'Nginx Full'
+```
 
 > [!NOTE]
 > опционально, если еще не сделали это ранее на своем сервере:
-> `sudo ufw allow OpenSSH`
+> ```bash
+> sudo ufw allow OpenSSH
+> ```
 
-`sudo ufw status`
+```bash
+sudo ufw status
+```
 
-`sudo ufw enable`
+```bash
+sudo ufw enable
+```
 
-`systemctl status nginx`
+```bash
+systemctl status nginx
+```
 
 ## Создание конфига
 
-`sudo nano /etc/nginx/sites-available/foundry.example.com`
+```bash
+sudo nano /etc/nginx/sites-available/foundry.example.com
+```
 
 ## Скопировать и вставить блок ниже
 
-``server {``
+```bash 
+server {
 
     # Enter your fully qualified domain name or leave blank
     server_name             foundry.example.com www.foundry.example.com; #ВАШИ ДОМЕНЫ
@@ -162,48 +230,64 @@ _Объем памяти, требуемый серверным процессо
         # Make sure to set your Foundry VTT port number
         proxy_pass http://localhost:30000;
     }
-``}``
+}
+```
 
 > [!IMPORTANT]
 > Заменить `foundry.example.com` на ваш домен.
 
 ## "Включить" конфиг
-`sudo ln -s /etc/nginx/sites-available/foundry.example.com /etc/nginx/sites-enabled/`
+```bash
+sudo ln -s /etc/nginx/sites-available/foundry.example.com /etc/nginx/sites-enabled/
+```
 
 > [!IMPORTANT]
 > Заменить `foundry.example.com` на ваш домен.
 
 ## Дополнительная настройка
-`sudo nano /etc/nginx/nginx.conf`
+```bash
+sudo nano /etc/nginx/nginx.conf
+```
 
 Найти и расскомментировать (убрать '#') перед строчкой:
 
-`server_names_hash_bucket_size 64;`
+```bash
+server_names_hash_bucket_size 64;
+```
 
 ## Валидация настроек
 
-`sudo nginx -t`
+```bash
+sudo nginx -t
+```
 
 ## Перезапуск NGINX
 
-`sudo systemctl restart nginx`
+```bash
+sudo systemctl restart nginx
+```
 
 # Настройка SSL
 
 ## Установка certbot
 
-`sudo apt install certbot python3-certbot-nginx`
+```bash
+sudo apt install certbot python3-certbot-nginx
+```
 
 ## Создание сертификата для домена
-`sudo certbot --nginx -d foundry.example.com -d www.foundry.example.com`
+```bash
+sudo certbot --nginx -d foundry.example.com -d www.foundry.example.com
+```
 
 > [!IMPORTANT]
 > Заменить `foundry.example.com` на ваш домен.
 
 ## Перезапуск NGINX
 
-`sudo systemctl restart nginx`
-
+```bash
+sudo systemctl restart nginx
+```
 
 
 ## Полезные ссылки
