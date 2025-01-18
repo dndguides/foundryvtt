@@ -2,8 +2,7 @@
 
 Более детальные комментарии даны в видео, текстовая инструкция лишь шпаргалка, чтобы иметь перед собой алгоритм действий. Поэтому крайне рекоммендую сначала ознакомиться с видео.
 
-[![Установка Foundry VTT на виртуальный сервер Ubuntu 22.04 +nginx+SSL](https://i3.ytimg.com/vi/TJGdipRdwvE/maxresdefault.jpg)](https://youtu.be/TJGdipRdwvE)
-
+[![Видео](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutube.com%2Fwatch%3Fv%3DTJGdipRdwvE)](https://youtube.com/watch?v=TJGdipRdwvE)
 > [!IMPORTANT]
 > Инструкцию буду поддерживать в актуальном состоянии. Если вы нашли ошибку или что-то идет не так, пишите мне, актуализирую статью:
 >
